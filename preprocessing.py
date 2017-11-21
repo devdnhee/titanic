@@ -1,5 +1,6 @@
 import csv
 import pandas as pd
+from sklearn import preprocessing
 
 variables=['PassengerId','Survived','Pcass','Name','Sex','Age','SibSp','Parch','Ticket',
            'Fare','Cabin','Embarked']
@@ -103,7 +104,7 @@ def transform_df(df):
     for c in missing_cols:
         df[c] = 0
 
-    # drop additional columns
+    # add additional columns
     add_cols = c2 - (c1 & c2)
     df = df.drop(add_cols, axis=1)
 
@@ -118,4 +119,10 @@ if __name__=='__main__':
     #read_train()
     #get_titles()
     #get_labels('Ticket')
-    transform_csv('test.csv', 'test_processed.csv')
+    df1 = transform_df(pd.read_csv('train.csv'))
+    df2 = transform_df(pd.read_csv('test.csv'))
+
+    differences = set(list(df1)) ^ set(list(df2))
+    print(len(list(df1)))
+    print(len(list(df2)))
+    print(differences)
